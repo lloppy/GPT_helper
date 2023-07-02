@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">GPT</string>
+    <string name="title_home">Переводчик</string>
+    <string name="title_dashboard">Чаты</string>
+    <string name="title_notifications">Настройки</string>
+</resources>
