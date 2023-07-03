@@ -1,7 +1,6 @@
-package com.example.gpt.ui.home
+package com.example.gpt.ui.chatGPT
 
 import AsteriskPasswordTransformationMethod
-import KeysHelper
 import android.Manifest
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -13,7 +12,6 @@ import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.text.Editable
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +20,6 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
@@ -47,7 +44,7 @@ import java.io.File
 import java.io.IOException
 import java.util.*
 
-class HomeFragment : Fragment() {
+class GPTFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -74,9 +71,6 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 

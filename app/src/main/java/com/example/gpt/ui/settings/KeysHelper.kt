@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.example.gpt.R
-import com.example.gpt.ui.home.HomeFragment
 
 class KeysHelper(private val context: Context) {
     var lastApi: String = ""
