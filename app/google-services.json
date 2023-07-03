@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1068897132718",
+    "firebase_url": "https://gpt-china-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "gpt-china",
     "storage_bucket": "gpt-china.appspot.com"
   },
@@ -22,7 +23,7 @@
           }
         },
         {
-          "client_id": "1068897132718-7fjv4hhggcet6cqbhptgjor0j8s2d56p.apps.googleusercontent.com",
+          "client_id": "1068897132718-b46q5nascjef7darkra6nfrir1a0qock.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

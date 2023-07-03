@@ -16,7 +16,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
@@ -29,7 +28,11 @@ import com.example.gpt.api.model.ChatCompletionResponse
 import com.example.gpt.api.model.Message
 import com.example.gpt.api.model.TranscriptResponse
 import com.example.gpt.databinding.FragmentHomeBinding
+import com.example.gpt.firebase.FirebaseHelper
 import com.example.gpt.popup.LoadingScreen
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -94,6 +97,9 @@ class HomeFragment : Fragment() {
         initTextToSpeech()
         initViews()
 
+        val firebaseHelper = FirebaseHelper()
+        firebaseHelper.loadUser()
+        
         return root
     }
 
