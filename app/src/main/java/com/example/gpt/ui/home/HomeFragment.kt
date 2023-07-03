@@ -99,7 +99,7 @@ class HomeFragment : Fragment() {
 
         val firebaseHelper = FirebaseHelper()
         firebaseHelper.loadUser()
-        
+
         return root
     }
 

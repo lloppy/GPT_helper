@@ -64,7 +64,7 @@
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
@@ -83,18 +83,18 @@
             android:inputType="textMultiLine"
             android:maxLines="5"
             android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="65dp"
+            android:paddingTop="7dp"
+            android:paddingRight="55dp"
             android:paddingBottom="20dp"
             android:textColor="#FFFFFF"
             android:textColorHint="#FFFFFF"
-            android:textSize="22dp" />
+            android:textSize="18dp" />
     </ScrollView>
 
     <ImageView
         android:id="@+id/sendAudio"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_alignTop="@id/scroll_view"
         android:layout_alignEnd="@id/scroll_view"
         android:layout_alignBottom="@id/scroll_view"
@@ -103,8 +103,8 @@
 
     <ImageView
         android:id="@+id/sendPropmt"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
         android:layout_alignTop="@id/scroll_view"
         android:layout_alignBottom="@id/scroll_view"
         android:layout_marginRight="10dp"
