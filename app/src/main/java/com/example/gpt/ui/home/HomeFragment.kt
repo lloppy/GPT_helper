@@ -1,5 +1,6 @@
 package com.example.gpt.ui.home
 
+import KeysHelper
 import android.Manifest
 import android.animation.ObjectAnimator
 import android.content.pm.PackageManager
@@ -9,6 +10,8 @@ import android.os.Build
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
+import android.text.Editable
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -30,9 +33,6 @@ import com.example.gpt.api.model.TranscriptResponse
 import com.example.gpt.databinding.FragmentHomeBinding
 import com.example.gpt.firebase.FirebaseHelper
 import com.example.gpt.popup.LoadingScreen
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -45,7 +45,6 @@ import java.io.IOException
 import java.util.*
 
 class HomeFragment : Fragment() {
-
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -150,6 +149,14 @@ class HomeFragment : Fragment() {
     ) {
 
         sendPrompt.setOnClickListener {
+
+            if (inputPrompt.text?.isEmpty() == true) {
+                val apiText: String = KeysHelper(requireContext()).lastApi
+                val editableText: Editable = Editable.Factory.getInstance().newEditable(apiText)
+                tokenApi.text = editableText
+                Log.e("api", "editableText is $editableText, lastApi is ${KeysHelper(requireContext()).lastApi}")
+            }
+
             if (inputPrompt.text?.isEmpty() == true) {
                 showToastMessage("Введите запрос")
             } else if (tokenApi.text.isEmpty()) {
@@ -246,6 +253,8 @@ class HomeFragment : Fragment() {
         val message = Message("user", inputPrompt.text.toString())
         messages.add(message)
         val request = ChatCompletionRequest("gpt-3.5-turbo", messages)
+
+
         OpenAiAPI(tokenApi.text.toString()).chatCompletion(request)
             .enqueue(object : Callback<ChatCompletionResponse> {
                 override fun onFailure(call: Call<ChatCompletionResponse>, t: Throwable) {

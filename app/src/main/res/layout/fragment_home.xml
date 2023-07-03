@@ -19,12 +19,12 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         android:background="@drawable/round_card"
-        android:hint="API Token"
+        android:hint="Вставьте свой API Token"
         android:inputType="textPassword"
         android:padding="5dp"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
+        android:textColor="#B8B8B8"
+        android:textColorHint="@color/red"
         android:textSize="17dp" />
 
     <LinearLayout
