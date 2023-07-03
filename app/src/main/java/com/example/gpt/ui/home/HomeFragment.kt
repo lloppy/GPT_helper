@@ -174,41 +174,24 @@ class HomeFragment : Fragment() {
 
     fun checker() {
         var newKey = ""
-        if (KeysHelper(requireContext()).lastApi.isEmpty()){
-            val sharedPreferences = context!!.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-            val savedKeysSet = sharedPreferences.getStringSet("keysSet", emptySet())?.toMutableSet()
-            newKey = savedKeysSet!!.random()
-            Log.e("watcher", "first if $newKey")
+        val sharedPreferences = context!!.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val savedKeysSet = sharedPreferences.getStringSet("keysSet", emptySet())?.toMutableSet()
+        val currKey = sharedPreferences.getString("currKey", String())
 
-            if (KeysHelper(requireContext()).lastApi != tokenApi.text.toString()){
-                newKey = tokenApi.text.toString()
-                Log.e("watcher", "first first if if $newKey")
-
-            }
-
+        if (currKey!!.isNotEmpty()){
+            newKey = currKey
+            val editableText: Editable = Editable.Factory.getInstance().newEditable(newKey)
+            tokenApi.text = editableText
         }
-        else{
-            Log.e("watcher", "first else $newKey")
-
-            Log.e("watcher", " requireContext lastApi is ${KeysHelper(requireContext()).lastApi }")
-            Log.e("watcher", "tokenApi is ${tokenApi.text}")
-            if (KeysHelper(requireContext()).lastApi != tokenApi.text.toString()){
-                newKey = KeysHelper(requireContext()).lastApi
-                Log.e("watcher", "second if $newKey")
-
+        else {
+            if(savedKeysSet!!.isNotEmpty()){
+                newKey = savedKeysSet!!.first()
+                val editableText: Editable = Editable.Factory.getInstance().newEditable(newKey)
+                tokenApi.text = editableText
             }
-            else {
-                newKey = tokenApi.text.toString()
-                Log.e("watcher", "second else $newKey")
-
-            }
-
         }
 
-        val editableText: Editable = Editable.Factory.getInstance().newEditable(newKey)
-        tokenApi.text = editableText
-        Log.e("watcher", "editableText is $editableText, lastApi is ${KeysHelper(requireContext()).lastApi}")
-        Log.e("watcher", "newKey is $newKey")
+
     }
 
     private fun setupSendAudioClickListener(sendAudio: ImageView, tokenApi: EditText) {

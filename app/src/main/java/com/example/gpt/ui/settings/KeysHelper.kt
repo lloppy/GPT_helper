@@ -52,7 +52,10 @@ class KeysHelper(private val context: Context) {
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
             val radioButton = group.findViewById<RadioButton>(checkedId)
             lastApi = radioButton.text.toString()
-            Log.e("watcher", "lastApi is $lastApi")
+
+            val editor = sharedPreferences.edit()
+            editor.putString("currKey", lastApi)
+            editor.apply()
 
 
             radioGroup.setOnLongClickListener {
