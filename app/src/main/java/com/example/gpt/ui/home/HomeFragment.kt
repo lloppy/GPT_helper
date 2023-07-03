@@ -3,6 +3,7 @@ package com.example.gpt.ui.home
 import KeysHelper
 import android.Manifest
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.media.MediaRecorder
@@ -20,6 +21,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
@@ -149,12 +151,21 @@ class HomeFragment : Fragment() {
     ) {
 
         sendPrompt.setOnClickListener {
-
+            var newKey = ""
             if (inputPrompt.text?.isEmpty() == true) {
-                val apiText: String = KeysHelper(requireContext()).lastApi
-                val editableText: Editable = Editable.Factory.getInstance().newEditable(apiText)
+                if(KeysHelper(requireContext()).lastApi.isEmpty()){
+                    val sharedPreferences = context!!.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                    val savedKeysSet = sharedPreferences.getStringSet("keysSet", emptySet())?.toMutableSet()
+                    newKey = savedKeysSet!!.last()
+                }
+                else{
+                    newKey = KeysHelper(requireContext()).lastApi
+                }
+
+                val editableText: Editable = Editable.Factory.getInstance().newEditable(newKey)
                 tokenApi.text = editableText
-                Log.e("api", "editableText is $editableText, lastApi is ${KeysHelper(requireContext()).lastApi}")
+                Log.e("watcher", "editableText is $editableText, lastApi is ${KeysHelper(requireContext()).lastApi}")
+                Log.e("watcher", "newKey is $newKey")
             }
 
             if (inputPrompt.text?.isEmpty() == true) {
