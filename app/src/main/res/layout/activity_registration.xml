@@ -7,6 +7,16 @@
     android:background="@color/back_gray"
     tools:context=".RegistrationActivity">
 
+    <ImageView
+        android:layout_width="900dp"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="70dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/snail"/>
+
     <Button
         android:id="@+id/sign_in"
         android:layout_width="wrap_content"

@@ -75,7 +75,6 @@ class RegistrationActivity : AppCompatActivity() {
         auth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 Log.d("MyLog", "Google sign in done")
-                // После успешной авторизации сохраняем информацию в SharedPreferences
                 getSharedPreferences("MY_APP", Context.MODE_PRIVATE)
                     .edit()
                     .putBoolean("IS_LOGGED_IN", true)
