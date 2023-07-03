@@ -65,7 +65,7 @@ class TemplateHelper(private val context: Context) {
         }
 
         initRadioButtons()
-
+        addRadioButton("")
         alertDialog.show()
     }
 
