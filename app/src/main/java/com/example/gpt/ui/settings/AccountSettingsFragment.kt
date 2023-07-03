@@ -1,6 +1,7 @@
 package com.example.gpt.ui.settings
 
 import KeysHelper
+import TemplateHelper
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -43,24 +44,9 @@ class AccountSettingsFragment : Fragment() {
         }
 
         binding.temp.setOnClickListener {
-            showCustomTempAlert()
+            TemplateHelper(requireContext()).showCustomTempAlert()
         }
     }
-
-    private fun showCustomTempAlert() {
-        val alertDialogBuilder = AlertDialog.Builder(requireContext())
-        val inflater = layoutInflater
-        val dialogView = inflater.inflate(R.layout.custom_temp_alert, null)
-
-        alertDialogBuilder.setView(dialogView)
-        alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
-            dialog.dismiss()
-        }
-
-        val alertDialog = alertDialogBuilder.create()
-        alertDialog.show()
-    }
-
 
     private fun setUpUserPicture(imageView: ImageView, userName: TextView) {
         Glide.with(this).load(FirebaseAuth.getInstance().currentUser?.photoUrl)

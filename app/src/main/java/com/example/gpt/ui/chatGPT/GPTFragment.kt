@@ -4,6 +4,7 @@ import AsteriskPasswordTransformationMethod
 import android.Manifest
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.media.MediaRecorder
@@ -12,6 +13,7 @@ import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.text.Editable
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -23,14 +25,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.gpt.R
 import com.example.gpt.api.OpenAiAPI
 import com.example.gpt.api.model.ChatCompletionRequest
 import com.example.gpt.api.model.ChatCompletionResponse
 import com.example.gpt.api.model.Message
 import com.example.gpt.api.model.TranscriptResponse
-import com.example.gpt.databinding.FragmentHomeBinding
+import com.example.gpt.databinding.FragmentChatGptBinding
 import com.example.gpt.firebase.FirebaseHelper
 import com.example.gpt.popup.LoadingScreen
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -45,8 +46,9 @@ import java.io.IOException
 import java.util.*
 
 class GPTFragment : Fragment() {
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentChatGptBinding? = null
     private val binding get() = _binding!!
+    var baseCommand: String = ""
 
     private lateinit var loading: LoadingScreen
     private lateinit var tts: TextToSpeech
@@ -71,7 +73,7 @@ class GPTFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentChatGptBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         sendPrompt = root.findViewById(R.id.sendPropmt)
@@ -83,6 +85,7 @@ class GPTFragment : Fragment() {
         tokenApi.transformationMethod = AsteriskPasswordTransformationMethod()
         finalResultContainer = root.findViewById(R.id.finalResultContainer)
         record = root.findViewById(R.id.recording_indicator)
+        initSpinner()
 
         record.setOnClickListener { stopRecordingAndSendAudio(tokenApi) }
         deleteTempButton.setOnClickListener { inputPrompt.text.clear() }
@@ -100,6 +103,29 @@ class GPTFragment : Fragment() {
         checker()
 
         return root
+    }
+
+    private fun initSpinner() {
+        val spinner = binding.spinner
+
+        spinner.setOnClickListener {
+            showItemsListDialog()
+        }
+    }
+
+    private fun showItemsListDialog() {
+        val items = arrayOf("Русский", "Китайский", "Английский")
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setItems(items) { _, which ->
+            val selectedItem = items[which]
+            if (selectedItem == "Китайский") {
+            } else {
+                // Handle other options as needed
+            }
+        }
+
+        builder.show()
     }
 
     override fun onDestroyView() {
@@ -172,13 +198,12 @@ class GPTFragment : Fragment() {
         val savedKeysSet = sharedPreferences.getStringSet("keysSet", emptySet())?.toMutableSet()
         val currKey = sharedPreferences.getString("currKey", String())
 
-        if (currKey!!.isNotEmpty()){
+        if (currKey!!.isNotEmpty()) {
             newKey = currKey
             val editableText: Editable = Editable.Factory.getInstance().newEditable(newKey)
             tokenApi.text = editableText
-        }
-        else {
-            if(savedKeysSet!!.isNotEmpty()){
+        } else {
+            if (savedKeysSet!!.isNotEmpty()) {
                 newKey = savedKeysSet!!.first()
                 val editableText: Editable = Editable.Factory.getInstance().newEditable(newKey)
                 tokenApi.text = editableText
@@ -271,7 +296,11 @@ class GPTFragment : Fragment() {
         val question = "<b>我:</b> ${inputPrompt.text}<br>"
         addMessage(finalResultContainer, question, true)
 
-        val message = Message("user", inputPrompt.text.toString())
+        val sharedPreferences = context!!.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val currTemp = sharedPreferences.getString("currTemp", String())
+        if (currTemp!!.isNotEmpty()) baseCommand = currTemp
+
+        val message = Message("user", baseCommand + inputPrompt.text.toString())
         messages.add(message)
         val request = ChatCompletionRequest("gpt-3.5-turbo", messages)
 
