@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1068897132718",
+    "project_id": "gpt-china",
+    "storage_bucket": "gpt-china.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1068897132718:android:ab28b5642ec5f8020d8d3f",
+        "android_client_info": {
+          "package_name": "com.example.gpt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1068897132718-jetq8vrmllo3qp62il3icdifintbkges.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gpt",
+            "certificate_hash": "a26fd18e6907f98ad2d31550df45646280162a59"
+          }
+        },
+        {
+          "client_id": "1068897132718-7fjv4hhggcet6cqbhptgjor0j8s2d56p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_HzF-yTcRWlV7Cri0GBbKiOJPfZ0fR30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1068897132718-7fjv4hhggcet6cqbhptgjor0j8s2d56p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
