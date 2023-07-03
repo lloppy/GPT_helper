@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.example.gpt.R
+import com.example.gpt.ui.home.HomeFragment
 
 class KeysHelper(private val context: Context) {
     var lastApi: String = ""
@@ -15,7 +16,6 @@ class KeysHelper(private val context: Context) {
     val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
     private var keysSet: MutableSet<String> = mutableSetOf()
-
 
     fun showCustomKeysAlert() {
         val alertDialogBuilder = AlertDialog.Builder(context)
@@ -31,12 +31,14 @@ class KeysHelper(private val context: Context) {
         addButton = dialogView.findViewById(R.id.addButton)
         saveButton = dialogView.findViewById(R.id.saveButton)
 
-
         addButton.setOnClickListener {
             val value = editText.text.toString().trim()
             if (value.isNotEmpty()) {
-                addRadioButton(value)
-                editText.setText("")
+                if(value.take(3) == "sk-") {
+                    addRadioButton(value)
+                    editText.setText("")
+                }
+                else Toast.makeText(context, "Неверный API KEY: $value", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -46,7 +48,6 @@ class KeysHelper(private val context: Context) {
             editor.apply()
             alertDialog.dismiss()
         }
-
 
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
             val radioButton = group.findViewById<RadioButton>(checkedId)
@@ -113,12 +114,12 @@ class KeysHelper(private val context: Context) {
         }
     }
 
-    fun watcher(keysSet: MutableSet<String>, wheen: String ){
+    fun watcher(keysSet: MutableSet<String>, wheen: String) {
         Log.e("watcher", "--------------- $wheen")
 
         Log.e("watcher", "keysSet size is ${keysSet.size}")
 
-        for(key in keysSet){
+        for (key in keysSet) {
             Log.e("watcher", "key is $key")
         }
     }

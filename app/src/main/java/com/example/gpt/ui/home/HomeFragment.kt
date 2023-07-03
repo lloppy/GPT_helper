@@ -1,5 +1,6 @@
 package com.example.gpt.ui.home
 
+import AsteriskPasswordTransformationMethod
 import KeysHelper
 import android.Manifest
 import android.animation.ObjectAnimator
@@ -85,6 +86,7 @@ class HomeFragment : Fragment() {
         deleteTempButton = root.findViewById(R.id.delete_template)
         inputPrompt = root.findViewById(R.id.inputPrompt)
         tokenApi = root.findViewById(R.id.apiToken)
+        tokenApi.transformationMethod = AsteriskPasswordTransformationMethod()
         finalResultContainer = root.findViewById(R.id.finalResultContainer)
         record = root.findViewById(R.id.recording_indicator)
 
@@ -100,6 +102,8 @@ class HomeFragment : Fragment() {
 
         val firebaseHelper = FirebaseHelper()
         firebaseHelper.loadUser()
+
+        checker()
 
         return root
     }
@@ -151,22 +155,7 @@ class HomeFragment : Fragment() {
     ) {
 
         sendPrompt.setOnClickListener {
-            var newKey = ""
-            if (inputPrompt.text?.isEmpty() == true) {
-                if(KeysHelper(requireContext()).lastApi.isEmpty()){
-                    val sharedPreferences = context!!.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-                    val savedKeysSet = sharedPreferences.getStringSet("keysSet", emptySet())?.toMutableSet()
-                    newKey = savedKeysSet!!.last()
-                }
-                else{
-                    newKey = KeysHelper(requireContext()).lastApi
-                }
-
-                val editableText: Editable = Editable.Factory.getInstance().newEditable(newKey)
-                tokenApi.text = editableText
-                Log.e("watcher", "editableText is $editableText, lastApi is ${KeysHelper(requireContext()).lastApi}")
-                Log.e("watcher", "newKey is $newKey")
-            }
+            if (inputPrompt.text?.isEmpty() == true) checker()
 
             if (inputPrompt.text?.isEmpty() == true) {
                 showToastMessage("Введите запрос")
@@ -176,6 +165,50 @@ class HomeFragment : Fragment() {
                 sendTextPrompt(inputPrompt, tokenApi, finalResultContainer, messages)
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        checker()
+    }
+
+    fun checker() {
+        var newKey = ""
+        if (KeysHelper(requireContext()).lastApi.isEmpty()){
+            val sharedPreferences = context!!.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            val savedKeysSet = sharedPreferences.getStringSet("keysSet", emptySet())?.toMutableSet()
+            newKey = savedKeysSet!!.random()
+            Log.e("watcher", "first if $newKey")
+
+            if (KeysHelper(requireContext()).lastApi != tokenApi.text.toString()){
+                newKey = tokenApi.text.toString()
+                Log.e("watcher", "first first if if $newKey")
+
+            }
+
+        }
+        else{
+            Log.e("watcher", "first else $newKey")
+
+            Log.e("watcher", " requireContext lastApi is ${KeysHelper(requireContext()).lastApi }")
+            Log.e("watcher", "tokenApi is ${tokenApi.text}")
+            if (KeysHelper(requireContext()).lastApi != tokenApi.text.toString()){
+                newKey = KeysHelper(requireContext()).lastApi
+                Log.e("watcher", "second if $newKey")
+
+            }
+            else {
+                newKey = tokenApi.text.toString()
+                Log.e("watcher", "second else $newKey")
+
+            }
+
+        }
+
+        val editableText: Editable = Editable.Factory.getInstance().newEditable(newKey)
+        tokenApi.text = editableText
+        Log.e("watcher", "editableText is $editableText, lastApi is ${KeysHelper(requireContext()).lastApi}")
+        Log.e("watcher", "newKey is $newKey")
     }
 
     private fun setupSendAudioClickListener(sendAudio: ImageView, tokenApi: EditText) {
