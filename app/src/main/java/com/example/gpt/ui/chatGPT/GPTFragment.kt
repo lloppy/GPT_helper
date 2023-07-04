@@ -192,7 +192,7 @@ class GPTFragment : Fragment() {
         checker()
     }
 
-    fun checker() {
+    private fun checker() {
         var newKey = ""
         val sharedPreferences = context!!.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val savedKeysSet = sharedPreferences.getStringSet("keysSet", emptySet())?.toMutableSet()
@@ -209,8 +209,6 @@ class GPTFragment : Fragment() {
                 tokenApi.text = editableText
             }
         }
-
-
     }
 
     private fun setupSendAudioClickListener(sendAudio: ImageView, tokenApi: EditText) {
@@ -298,6 +296,8 @@ class GPTFragment : Fragment() {
 
         val sharedPreferences = context!!.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val currTemp = sharedPreferences.getString("currTemp", String())
+        if (baseCommand == "Пустой шаблон") baseCommand = ""
+
         if (currTemp!!.isNotEmpty()) baseCommand = currTemp
 
         val message = Message("user", baseCommand + inputPrompt.text.toString())

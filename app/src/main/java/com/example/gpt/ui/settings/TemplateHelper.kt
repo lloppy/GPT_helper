@@ -6,7 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import com.example.gpt.R
 
 class TemplateHelper(private val context: Context) {
-    var lastApi: String = ""
+    var lastTemp: String = ""
 
     private lateinit var radioGroup: RadioGroup
     private lateinit var editText: EditText
@@ -48,10 +48,10 @@ class TemplateHelper(private val context: Context) {
 
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
             val radioButton = group.findViewById<RadioButton>(checkedId)
-            lastApi = radioButton.text.toString()
+            lastTemp = radioButton.text.toString()
 
             val editor = sharedPreferences.edit()
-            editor.putString("currTemp", lastApi)
+            editor.putString("currTemp", lastTemp)
             editor.apply()
 
 
@@ -65,7 +65,7 @@ class TemplateHelper(private val context: Context) {
         }
 
         initRadioButtons()
-        addRadioButton("")
+        addRadioButton("Пустой шаблон")
         alertDialog.show()
     }
 

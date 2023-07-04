@@ -46,6 +46,10 @@ class AccountSettingsFragment : Fragment() {
         binding.temp.setOnClickListener {
             TemplateHelper(requireContext()).showCustomTempAlert()
         }
+
+        binding.saved.setOnClickListener {
+            PhrasesHelper(requireContext()).showCustomPhrasesAlert()
+        }
     }
 
     private fun setUpUserPicture(imageView: ImageView, userName: TextView) {
